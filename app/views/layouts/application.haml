@@ -8,6 +8,7 @@
     %meta{:content => "", :name => "author"}
     = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
     = javascript_include_tag "application", "data-turbolinks-track" => true
+    = javascript_include_tag "http://www.google.com/jsapi", "chartkick" => true
     = csrf_meta_tags
     = yield(:head)
   %body
@@ -19,4 +20,5 @@
             .span12
               = render 'layouts/messages'
               = yield
+              = yield :js_initialization
           %footer
