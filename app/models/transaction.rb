@@ -1,4 +1,5 @@
 class Transaction < ActiveRecord::Base
+
   # pm_types
   # 0 Withdrawal
   # 1 Deposit
@@ -20,7 +21,11 @@ class Transaction < ActiveRecord::Base
 
   scope :interval, ->(from, to) { where("transactions.date >= ? AND transactions.date <= ?", from, to) }
   scope :total_amount, -> { select('count(transactions.amount) as total_count', 'sum(transactions.amount) as total_amount') }
-
+  scope :grouping, -> { select("date_part('month', date) as month", "extract(year from date)") }
+  scope :outcome, -> { select('SUM(CASE WHEN pm_type = 0 OR pm_type = 1 THEN amount END) as outcome') }
+  scope :income, -> { select('SUM(CASE WHEN pm_type = 2 THEN amount END) as income') }
+  scope :g, -> { group('1,2').order('month asc') }
+  scope :get_income_outcome, -> { grouping.active.income.outcome.g }
   belongs_to :account
   has_many :splits
 
