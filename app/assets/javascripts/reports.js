@@ -3,8 +3,12 @@
 // You can use CoffeeScript in this file: http://coffeescript.org/
 //= require Chart
 
-
 $.get("/reports/income_v_expense.json",function(barChartData){
+  console.log(barChartData);
+  var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Bar(barChartData);
+});
+
+$.get("/reports/net_worth.json",function(barChartData){
   console.log(barChartData);
   var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Bar(barChartData);
 });
